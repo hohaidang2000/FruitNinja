@@ -1,14 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using EzySlice;
 public class MouseBlade : MonoBehaviour
 {
     GameInput playerInput;
     public Camera camera;
-    public Transform mouse;
+    public Rigidbody2D mouse;
     public Transform trailDefault;
     public Transform trailControl;
+    public Transform cutPlane;
+    public GameObject ball;
     bool isCutting;
     bool hasTrail;
     // Start is called before the first frame update
@@ -21,19 +23,51 @@ public class MouseBlade : MonoBehaviour
         playerInput.Player.Enable();
         playerInput.Player.Slice.started += contex =>
         {
+           
             isCutting = true;
+            Cut();
         };
+
         playerInput.Player.Slice.canceled += contex =>
         {
             StopTrail();
             isCutting = false;
-            
         };
+    }
+
+
+    void Cut()
+    {
+        SlicedHull hull = SliceObject(ball, ball.GetComponent<Material>());
+        GameObject bottom = hull.CreateLowerHull(ball, ball.GetComponent<Material>());
+        GameObject top = hull.CreateUpperHull(ball, ball.GetComponent<Material>());
+        AddHullComponents(bottom);
+        AddHullComponents(top);
+        Destroy(ball);
+    }
+    public void AddHullComponents(GameObject go)
+    {
+        go.layer = 9;
+        Rigidbody rb = go.AddComponent<Rigidbody>();
+        rb.interpolation = RigidbodyInterpolation.Interpolate;
+        MeshCollider collider = go.AddComponent<MeshCollider>();
+        collider.convex = true;
+
+        rb.AddExplosionForce(100, go.transform.position, 20);
+    }
+    public SlicedHull SliceObject(GameObject obj, Material crossSectionMaterial = null)
+    {
+        // slice the provided object using the transforms of this object
+        if (obj.GetComponent<MeshFilter>() == null)
+            return null;
+
+        return obj.Slice(cutPlane.position, cutPlane.up, crossSectionMaterial);
     }
     void StopTrail()
     {
         trailControl.gameObject.SetActive(false);
-        Destroy(trailControl.gameObject, 2f);
+        Destroy(trailControl.gameObject
+            , 2f);
         hasTrail = false;
     }
     void StartCutting()
@@ -47,9 +81,10 @@ public class MouseBlade : MonoBehaviour
        
         mousePosition.z = 0;
         trailControl.transform.position = mousePosition;
-        //mouse.transform.position = mousePosition;
+        mouse.position = mousePosition;
         Debug.Log(playerInput.Player.MousePosition.ReadValue<Vector2>());
         Debug.Log(mousePosition);
+      
     }
     // Update is called once per frame
     void Update()
