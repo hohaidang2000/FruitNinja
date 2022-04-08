@@ -92,11 +92,7 @@ public class MouseBlade : MonoBehaviour
         mousePosition.z = 0;
         trailControl.transform.position = mousePosition;
         mouse.position = mousePosition;
-        //Debug.Log(playerInput.Player.MousePosition.ReadValue<Vector2>());
-        //Debug.Log(mousePosition);
 
-        //Quaternion targetRotation = Quaternion.LookRotation(lastPosition3D - mousePosition, Vector3.forward);
-        //cutPlane.rotation = Quaternion.RotateTowards(cutPlane.rotation, targetRotation, 1);
         cutPlane.transform.forward = lastPosition3D- mousePosition;
         lastPosition2D = playerInput.Player.MousePosition.ReadValue<Vector2>();
         lastPosition3D = mousePosition;
