@@ -33,9 +33,7 @@ public class MouseBlade : MonoBehaviour
 
         playerInput.Player.Slice.started += contex =>
         {
-           
-            isCutting = true;
-           
+                isCutting = true;
         };
 
         playerInput.Player.Slice.canceled += contex =>
@@ -48,13 +46,31 @@ public class MouseBlade : MonoBehaviour
 
     void Cut()
     {
+        Collider[] hits = Physics.OverlapBox(cutPlane.position, new Vector3(0.1f, 0.1f,0.1f), cutPlane.rotation, 3);
+        if (hits.Length <= 0)
+            return;
+        for (int i = 0; i < hits.Length; i++)
+        {
+            SlicedHull hull = SliceObject(hits[i].gameObject, hits[i].gameObject.GetComponent<Material>());
+            if (hull != null)
+            {
+                GameObject bottom = hull.CreateLowerHull(hits[i].gameObject, hits[i].gameObject.GetComponent<Material>());
+                GameObject top = hull.CreateUpperHull(hits[i].gameObject, hits[i].gameObject.GetComponent<Material>());
+                AddHullComponents(bottom);
+                AddHullComponents(top);
+                Destroy(hits[i].gameObject);
+            }
+        }
+        /*
         SlicedHull hull = SliceObject(ball, ball.GetComponent<Material>());
         GameObject bottom = hull.CreateLowerHull(ball, ball.GetComponent<Material>());
         GameObject top = hull.CreateUpperHull(ball, ball.GetComponent<Material>());
         AddHullComponents(bottom);
         AddHullComponents(top);
         Destroy(ball);
+        */
     }
+  
     public void AddHullComponents(GameObject go)
     {
         go.layer = 3;
@@ -63,7 +79,7 @@ public class MouseBlade : MonoBehaviour
         MeshCollider collider = go.AddComponent<MeshCollider>();
         collider.convex = true;
 
-        rb.AddExplosionForce(100, go.transform.position, 20);
+        rb.AddExplosionForce(300, go.transform.position, 400);
     }
     public SlicedHull SliceObject(GameObject obj, Material crossSectionMaterial = null)
     {
@@ -87,13 +103,10 @@ public class MouseBlade : MonoBehaviour
         Vector2 pos = playerInput.Player.MousePosition.ReadValue<Vector2>();
         Vector3 mousePosition = new Vector3(pos.x, pos.y, Mathf.Abs(camera.transform.position.z));
         mousePosition = camera.ScreenToWorldPoint(mousePosition);
-
-       
         mousePosition.z = 0;
         trailControl.transform.position = mousePosition;
         mouse.position = mousePosition;
-
-        cutPlane.transform.forward = lastPosition3D- mousePosition;
+        cutPlane.transform.forward = lastPosition3D - mousePosition;
         lastPosition2D = playerInput.Player.MousePosition.ReadValue<Vector2>();
         lastPosition3D = mousePosition;
         Cut();
@@ -103,6 +116,7 @@ public class MouseBlade : MonoBehaviour
     {
         if (isCutting)
         {
+
             if (hasTrail == false)
             {   
                 trailControl = Instantiate(trailDefault);
@@ -111,6 +125,7 @@ public class MouseBlade : MonoBehaviour
                 hasTrail = true;
             }
             StartCutting();
+            
         }
         //Debug.Log(playerInput.Player.MousePosition.ReadValue<Vector2>());
         
