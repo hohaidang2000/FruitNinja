@@ -13,19 +13,29 @@ public class MouseBlade : MonoBehaviour
     public GameObject ball;
     bool isCutting;
     bool hasTrail;
+    Vector2 lastPosition2D;
+    Vector3 lastPosition3D;
     // Start is called before the first frame update
     private void Awake()
     {
         hasTrail = false;
         isCutting = false;
+       
         //Cursor.lockState = CursorLockMode.Locked;
         playerInput = new GameInput();
         playerInput.Player.Enable();
+        Vector2 pos = playerInput.Player.MousePosition.ReadValue<Vector2>();
+        Vector3 mousePosition = new Vector3(pos.x, pos.y, Mathf.Abs(camera.transform.position.z));
+        mousePosition = camera.ScreenToWorldPoint(mousePosition);
+        mousePosition.z = 0;
+        lastPosition2D = playerInput.Player.MousePosition.ReadValue<Vector2>();
+        lastPosition3D = mousePosition;
+
         playerInput.Player.Slice.started += contex =>
         {
            
             isCutting = true;
-            Cut();
+           
         };
 
         playerInput.Player.Slice.canceled += contex =>
@@ -47,7 +57,7 @@ public class MouseBlade : MonoBehaviour
     }
     public void AddHullComponents(GameObject go)
     {
-        go.layer = 9;
+        go.layer = 3;
         Rigidbody rb = go.AddComponent<Rigidbody>();
         rb.interpolation = RigidbodyInterpolation.Interpolate;
         MeshCollider collider = go.AddComponent<MeshCollider>();
@@ -82,9 +92,15 @@ public class MouseBlade : MonoBehaviour
         mousePosition.z = 0;
         trailControl.transform.position = mousePosition;
         mouse.position = mousePosition;
-        Debug.Log(playerInput.Player.MousePosition.ReadValue<Vector2>());
-        Debug.Log(mousePosition);
-      
+        //Debug.Log(playerInput.Player.MousePosition.ReadValue<Vector2>());
+        //Debug.Log(mousePosition);
+
+        //Quaternion targetRotation = Quaternion.LookRotation(lastPosition3D - mousePosition, Vector3.forward);
+        //cutPlane.rotation = Quaternion.RotateTowards(cutPlane.rotation, targetRotation, 1);
+        cutPlane.transform.forward = lastPosition3D- mousePosition;
+        lastPosition2D = playerInput.Player.MousePosition.ReadValue<Vector2>();
+        lastPosition3D = mousePosition;
+        Cut();
     }
     // Update is called once per frame
     void Update()
