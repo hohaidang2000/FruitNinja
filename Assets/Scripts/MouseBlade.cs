@@ -62,6 +62,10 @@ public class MouseBlade : MonoBehaviour
                 GameObject top = hull.CreateUpperHull(hits[i].gameObject, cutMaterial);
                 AddHullComponents(bottom);
                 AddHullComponents(top);
+                if(hits[i].gameObject.tag == "Bomb")
+                {
+                    hits[i].gameObject.GetComponent<Explode>().Begin();
+                }
                 Destroy(hits[i].gameObject);
             }
         }
