@@ -12,6 +12,7 @@ public class MouseBlade : MonoBehaviour
     public Transform cutPlane;
     public GameObject ball;
     public Material cutMaterial;
+    public AudioSource audio;
     bool isCutting;
     bool hasTrail;
     Vector2 lastPosition2D;
@@ -21,7 +22,7 @@ public class MouseBlade : MonoBehaviour
     {
         hasTrail = false;
         isCutting = false;
-       
+        audio = gameObject.GetComponent<AudioSource>();
         //Cursor.lockState = CursorLockMode.Locked;
         playerInput = new GameInput();
         playerInput.Player.Enable();
@@ -52,9 +53,11 @@ public class MouseBlade : MonoBehaviour
             return;
         for (int i = 0; i < hits.Length; i++)
         {
+            
             SlicedHull hull = SliceObject(hits[i].gameObject, cutMaterial );
             if (hull != null)
             {
+                audio.Play();
                 GameObject bottom = hull.CreateLowerHull(hits[i].gameObject, cutMaterial);
                 GameObject top = hull.CreateUpperHull(hits[i].gameObject, cutMaterial);
                 AddHullComponents(bottom);
