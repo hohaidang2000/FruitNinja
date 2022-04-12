@@ -174,7 +174,7 @@ MonoBehaviour:
   - {fileID: 1541859410316496, guid: 4fe5a7bcbee1651418ea031a87ff53e4, type: 3}
   - {fileID: 1638444836145330, guid: 031f4f4b1f7d8b7489da0919e18ceac3, type: 3}
   - {fileID: 1724972533694550, guid: 63e523ab5d9ce7348b431ae1d689a54d, type: 3}
-  - {fileID: 0}
+  - {fileID: 3739753917330898307, guid: f976263b398774249ae1850c2d9a7ddb, type: 3}
   spawnPoints:
   - {fileID: 478221017}
   - {fileID: 534518490}

@@ -58,14 +58,19 @@ public class MouseBlade : MonoBehaviour
             if (hull != null)
             {
                 audio.Play();
-                GameObject bottom = hull.CreateLowerHull(hits[i].gameObject, cutMaterial);
-                GameObject top = hull.CreateUpperHull(hits[i].gameObject, cutMaterial);
-                AddHullComponents(bottom);
-                AddHullComponents(top);
-                if(hits[i].gameObject.tag == "Bomb")
+                if (hits[i].gameObject.tag == "Bomb")
                 {
                     hits[i].gameObject.GetComponent<Explode>().Begin();
                 }
+                else
+                {
+                    GameObject bottom = hull.CreateLowerHull(hits[i].gameObject, cutMaterial);
+                    GameObject top = hull.CreateUpperHull(hits[i].gameObject, cutMaterial);
+                    AddHullComponents(bottom);
+                    AddHullComponents(top);
+                }
+                
+                
                 Destroy(hits[i].gameObject);
             }
         }

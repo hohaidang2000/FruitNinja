@@ -17,6 +17,7 @@ public class Explode : MonoBehaviour
         Transform explodeObject = Instantiate(explosionParticle, gameObject.transform.position,gameObject.transform.rotation);
         //explodeObject.SetParent();
         explodeObject.GetComponent<ParticleSystem>().Play();
+       
         
        
     }
