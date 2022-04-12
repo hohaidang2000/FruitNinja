@@ -13,6 +13,8 @@ public class MouseBlade : MonoBehaviour
     public GameObject ball;
     public Material cutMaterial;
     public AudioSource audio;
+    public GameManager gameManager;
+    public float invincibleTime = 1;
     bool isCutting;
     bool hasTrail;
     Vector2 lastPosition2D;
@@ -20,6 +22,7 @@ public class MouseBlade : MonoBehaviour
     // Start is called before the first frame update
     private void Awake()
     {
+       
         hasTrail = false;
         isCutting = false;
         audio = gameObject.GetComponent<AudioSource>();
@@ -61,6 +64,12 @@ public class MouseBlade : MonoBehaviour
                 if (hits[i].gameObject.tag == "Bomb")
                 {
                     hits[i].gameObject.GetComponent<Explode>().Begin();
+                    if(invincibleTime <= 0)
+                    {
+                        gameManager.live -= 1;
+                        invincibleTime = 1;
+                    }
+                    
                 }
                 else
                 {
@@ -68,10 +77,9 @@ public class MouseBlade : MonoBehaviour
                     GameObject top = hull.CreateUpperHull(hits[i].gameObject, cutMaterial);
                     AddHullComponents(bottom);
                     AddHullComponents(top);
+                    Destroy(hits[i].gameObject);
                 }
                 
-                
-                Destroy(hits[i].gameObject);
             }
         }
         /*
@@ -132,6 +140,7 @@ public class MouseBlade : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        invincibleTime -= Time.deltaTime;
         if (isCutting)
         {
 
