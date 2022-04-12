@@ -11,6 +11,7 @@ public class MouseBlade : MonoBehaviour
     public Transform trailControl;
     public Transform cutPlane;
     public GameObject ball;
+    public Material cutMaterial;
     bool isCutting;
     bool hasTrail;
     Vector2 lastPosition2D;
@@ -46,16 +47,16 @@ public class MouseBlade : MonoBehaviour
 
     void Cut()
     {
-        Collider[] hits = Physics.OverlapBox(cutPlane.position, new Vector3(0.1f, 0.1f,0.1f), cutPlane.rotation, 3);
+        Collider[] hits = Physics.OverlapBox(cutPlane.position, new Vector3(0.01f, 0.01f,0.01f), cutPlane.rotation, 3);
         if (hits.Length <= 0)
             return;
         for (int i = 0; i < hits.Length; i++)
         {
-            SlicedHull hull = SliceObject(hits[i].gameObject, hits[i].gameObject.GetComponent<Material>());
+            SlicedHull hull = SliceObject(hits[i].gameObject, cutMaterial );
             if (hull != null)
             {
-                GameObject bottom = hull.CreateLowerHull(hits[i].gameObject, hits[i].gameObject.GetComponent<Material>());
-                GameObject top = hull.CreateUpperHull(hits[i].gameObject, hits[i].gameObject.GetComponent<Material>());
+                GameObject bottom = hull.CreateLowerHull(hits[i].gameObject, cutMaterial);
+                GameObject top = hull.CreateUpperHull(hits[i].gameObject, cutMaterial);
                 AddHullComponents(bottom);
                 AddHullComponents(top);
                 Destroy(hits[i].gameObject);
@@ -106,11 +107,16 @@ public class MouseBlade : MonoBehaviour
         mousePosition.z = 0;
         trailControl.transform.position = mousePosition;
         mouse.position = mousePosition;
-        cutPlane.transform.forward = lastPosition3D - mousePosition;
+        
+        if (Mathf.Abs(pos.x - lastPosition2D.x) > 0.01f || Mathf.Abs(pos.y - lastPosition2D.y) > 0.001f)
+        {
+            cutPlane.transform.forward = lastPosition3D - mousePosition;
+        }
         lastPosition2D = playerInput.Player.MousePosition.ReadValue<Vector2>();
         lastPosition3D = mousePosition;
         Cut();
     }
+    
     // Update is called once per frame
     void Update()
     {
