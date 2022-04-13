@@ -54,6 +54,7 @@ public class MouseBlade : MonoBehaviour
         Collider[] hits = Physics.OverlapBox(cutPlane.position, new Vector3(0.01f, 0.01f,0.01f), cutPlane.rotation, 3);
         if (hits.Length <= 0)
             return;
+        
         for (int i = 0; i < hits.Length; i++)
         {
             
@@ -73,6 +74,7 @@ public class MouseBlade : MonoBehaviour
                 }
                 else
                 {
+                    gameManager.point += 10;
                     GameObject bottom = hull.CreateLowerHull(hits[i].gameObject, cutMaterial);
                     GameObject top = hull.CreateUpperHull(hits[i].gameObject, cutMaterial);
                     AddHullComponents(bottom);

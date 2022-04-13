@@ -135,7 +135,7 @@ GameObject:
   - component: {fileID: 90083372}
   m_Layer: 0
   m_Name: Spawnzone
-  m_TagString: Untagged
+  m_TagString: Fruit
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -552,6 +552,8 @@ MonoBehaviour:
   ball: {fileID: 0}
   cutMaterial: {fileID: 2100000, guid: a2064a4730f6f3645aa790e724793759, type: 2}
   audio: {fileID: 0}
+  gameManager: {fileID: 1253280423}
+  invincibleTime: 1
 --- !u!50 &1180241701
 Rigidbody2D:
   serializedVersion: 4
@@ -693,6 +695,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1253280424}
+  - component: {fileID: 1253280423}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -700,6 +703,21 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &1253280423
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1253280422}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f02bb7f90e669924db351a99c5687964, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  settingLive: 3
+  live: 3
+  point: 0
 --- !u!4 &1253280424
 Transform:
   m_ObjectHideFlags: 0
