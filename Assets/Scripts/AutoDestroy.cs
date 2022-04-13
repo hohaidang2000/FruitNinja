@@ -4,20 +4,21 @@ using UnityEngine;
 
 public class AutoDestroy : MonoBehaviour
 {
+    public float waitTime = 1f;
     void Start()
     {
         //Start the coroutine we define below named ExampleCoroutine.
-        StartCoroutine(End());
+        
     }
 
-    IEnumerator End()
+    void Update()
     {
         //Print the time of when the function is first called.
-        
+        waitTime -= Time.deltaTime;
         //yield on a new YieldInstruction that waits for 5 seconds.
-        yield return new WaitForSeconds(1);
-
+        if(waitTime <= 0)
+            Destroy(gameObject);
         //After we have waited 5 seconds print the time again.
-        Destroy(gameObject);
+
     }
 }

@@ -7,14 +7,18 @@ public class MouseBlade : MonoBehaviour
     GameInput playerInput;
     public Camera camera;
     public Rigidbody2D mouse;
+    public Material cutMaterial;
+    public AudioSource audio;
+
+    public GameManager gameManager;
+
     public Transform trailDefault;
     public Transform trailControl;
     public Transform cutPlane;
-    public GameObject ball;
-    public Material cutMaterial;
-    public AudioSource audio;
-    public GameManager gameManager;
-    public float invincibleTime = 1;
+    public Transform fruitJuiceEffect;
+
+    
+    public float invincibleTime = 0.1f;
     bool isCutting;
     bool hasTrail;
     Vector2 lastPosition2D;
@@ -68,13 +72,16 @@ public class MouseBlade : MonoBehaviour
                     if(invincibleTime <= 0)
                     {
                         gameManager.live -= 1;
-                        invincibleTime = 1;
+                        invincibleTime = 0.1f;
                     }
                     
                 }
                 else
                 {
                     gameManager.point += 10;
+                    Transform juice = Instantiate(fruitJuiceEffect);
+                    juice.position = hits[i].transform.position;
+                    juice.rotation = cutPlane.transform.rotation;
                     GameObject bottom = hull.CreateLowerHull(hits[i].gameObject, cutMaterial);
                     GameObject top = hull.CreateUpperHull(hits[i].gameObject, cutMaterial);
                     AddHullComponents(bottom);

@@ -549,6 +549,7 @@ MonoBehaviour:
   trailDefault: {fileID: 5826401401920956355, guid: 06aa843f4d9bd7a4885b676787b53906, type: 3}
   trailControl: {fileID: 5826401401920956355, guid: 06aa843f4d9bd7a4885b676787b53906, type: 3}
   cutPlane: {fileID: 1162237234}
+  fruitJuiceEffect: {fileID: 4000013488956786, guid: abb9f519b142e304d9c45b56afa768bc, type: 3}
   ball: {fileID: 0}
   cutMaterial: {fileID: 2100000, guid: a2064a4730f6f3645aa790e724793759, type: 2}
   audio: {fileID: 0}
