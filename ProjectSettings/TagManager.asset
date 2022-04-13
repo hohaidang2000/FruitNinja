@@ -6,6 +6,9 @@ TagManager:
   tags:
   - Bomb
   - Fruit
+  - Red
+  - Orange
+  - Yellow
   layers:
   - Default
   - TransparentFX

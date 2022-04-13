@@ -4,12 +4,13 @@ using UnityEngine;
 using EzySlice;
 public class MouseBlade : MonoBehaviour
 {
+    public List<Material> materials;
     GameInput playerInput;
     public Camera camera;
     public Rigidbody2D mouse;
     public Material cutMaterial;
     public AudioSource audio;
-
+    
     public GameManager gameManager;
 
     public Transform trailDefault;
@@ -82,8 +83,25 @@ public class MouseBlade : MonoBehaviour
                     Transform juice = Instantiate(fruitJuiceEffect);
                     juice.position = hits[i].transform.position;
                     juice.rotation = cutPlane.transform.rotation;
-                    GameObject bottom = hull.CreateLowerHull(hits[i].gameObject, cutMaterial);
-                    GameObject top = hull.CreateUpperHull(hits[i].gameObject, cutMaterial);
+                    int j = 0;
+                    switch (hits[i].gameObject.tag)
+                    {
+                        case "Red":
+                            j = 0;
+                            break;
+                        case "Orange":
+                            j = 1;
+                            break;
+                        case "Yellow":
+                            j = 2;
+                            break;
+                       
+                        default:
+                            j = 0;
+                            break;
+                    }
+                    GameObject bottom = hull.CreateLowerHull(hits[i].gameObject, materials[j]);
+                    GameObject top = hull.CreateUpperHull(hits[i].gameObject, materials[j]);
                     AddHullComponents(bottom);
                     AddHullComponents(top);
                     Destroy(hits[i].gameObject);

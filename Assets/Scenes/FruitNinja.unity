@@ -544,16 +544,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 252bd00c0d290684dbb849d88d8aa2ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  materials:
+  - {fileID: 2100000, guid: 287e1a3f453797540b49f0187d728702, type: 2}
+  - {fileID: 2100000, guid: 808e346900ef14c44921a4e86ae57cd9, type: 2}
+  - {fileID: 2100000, guid: a2064a4730f6f3645aa790e724793759, type: 2}
   camera: {fileID: 963194227}
   mouse: {fileID: 1180241701}
+  cutMaterial: {fileID: 2100000, guid: a2064a4730f6f3645aa790e724793759, type: 2}
+  audio: {fileID: 0}
+  gameManager: {fileID: 1253280423}
   trailDefault: {fileID: 5826401401920956355, guid: 06aa843f4d9bd7a4885b676787b53906, type: 3}
   trailControl: {fileID: 5826401401920956355, guid: 06aa843f4d9bd7a4885b676787b53906, type: 3}
   cutPlane: {fileID: 1162237234}
   fruitJuiceEffect: {fileID: 4000013488956786, guid: abb9f519b142e304d9c45b56afa768bc, type: 3}
-  ball: {fileID: 0}
-  cutMaterial: {fileID: 2100000, guid: a2064a4730f6f3645aa790e724793759, type: 2}
-  audio: {fileID: 0}
-  gameManager: {fileID: 1253280423}
   invincibleTime: 1
 --- !u!50 &1180241701
 Rigidbody2D:
