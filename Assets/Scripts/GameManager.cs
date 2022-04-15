@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    public Canvas pauseMenu;
+    public Canvas loseMenu;
     public List<GameObject> lives;
     public TextMeshProUGUI pointGUI;
-    public Canvas pauseMenu;
+    
     public int settingLive = 3;
     public int live = 3;
     public int point = 0;
@@ -40,6 +43,22 @@ public class GameManager : MonoBehaviour
         }
         
     }
+    public void NextScene()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+    }
+    public void QuitGame()
+    {
+        Application.Quit();
+    }
+    public void Quit()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
+    }
+    public void Restart()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
     public void UnPause()
     {
         Time.timeScale = 1;
@@ -53,7 +72,9 @@ public class GameManager : MonoBehaviour
         pointGUI.SetText(point.ToString());
         if (live <= 0)
         {
+            loseMenu.gameObject.SetActive(true);
             Time.timeScale = 0;
+            isPause = true;
         }
     }
 }
