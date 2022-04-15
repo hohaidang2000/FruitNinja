@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
+using UnityEngine.Advertisements;
 
 public class GameManager : MonoBehaviour
 {
@@ -16,14 +17,22 @@ public class GameManager : MonoBehaviour
     public int live = 3;
     public int point = 0;
     bool isPause = false;
+    string gameId = "4709499";
     // Start is called before the first frame update
     void Start()
     {
+        Advertisement.Initialize(gameId);
         Time.timeScale = 1;
         live = settingLive;
         point = 0;
     }
-
+    public void PlayAd()
+    {
+        if (Advertisement.IsReady("Interstitial_Android"))
+        {
+            Advertisement.Show("Interstitial_Android");
+        }
+    }
     public void DestroyHeart()
     {
         lives[live].SetActive(false);     

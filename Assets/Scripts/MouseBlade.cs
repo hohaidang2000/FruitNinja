@@ -159,7 +159,7 @@ public class MouseBlade : MonoBehaviour
         trailControl.transform.position = mousePosition;
         mouse.position = mousePosition;
         
-        if (Mathf.Abs(pos.x - lastPosition2D.x) > 0.01f || Mathf.Abs(pos.y - lastPosition2D.y) > 0.001f)
+        if (Mathf.Abs(pos.x - lastPosition2D.x) > 0.0001f || Mathf.Abs(pos.y - lastPosition2D.y) > 0.0001f)
         {
             cutPlane.transform.forward = lastPosition3D - mousePosition;
         }
