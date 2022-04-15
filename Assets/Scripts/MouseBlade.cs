@@ -45,7 +45,10 @@ public class MouseBlade : MonoBehaviour
         {
                 isCutting = true;
         };
-
+        playerInput.Player.Pause.started += context =>
+        {
+            gameManager.Pause();
+        };
         playerInput.Player.Slice.canceled += contex =>
         {
             StopTrail();
@@ -73,6 +76,7 @@ public class MouseBlade : MonoBehaviour
                     if(invincibleTime <= 0)
                     {
                         gameManager.live -= 1;
+                        gameManager.DestroyHeart();
                         invincibleTime = 0.1f;
                     }
                     
